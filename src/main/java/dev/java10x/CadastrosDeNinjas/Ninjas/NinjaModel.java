@@ -1,6 +1,9 @@
-package dev.java10x.CadastrosDeNinjas;
+package dev.java10x.CadastrosDeNinjas.Ninjas;
 
+import dev.java10x.CadastrosDeNinjas.Missoes.MissoesModel;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "tb_cadastro")
@@ -8,10 +11,15 @@ public class NinjaModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String nome;
-    String email;
-    int idade;
+   private Long id;
+   private String nome;
+   private String email;
+   private int idade;
+
+//uma missao para varios ninjas
+@OneToMany
+@JoinColumn(name = "missoes_id") //foreign key ou chave estrangeira
+    private MissoesModel missoes;
 
     public NinjaModel(){
 

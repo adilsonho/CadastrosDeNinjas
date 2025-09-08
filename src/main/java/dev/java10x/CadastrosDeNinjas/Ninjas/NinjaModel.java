@@ -2,18 +2,30 @@ package dev.java10x.CadastrosDeNinjas.Ninjas;
 
 import dev.java10x.CadastrosDeNinjas.Missoes.MissoesModel;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.util.List;
 
 @Entity
 @Table(name = "tb_cadastro")
+@Data
+@AllArgsConstructor
 public class NinjaModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Column(name="id")
    private Long id;
+
+    @Column(name="nome")
    private String nome;
+
+    @Column(unique = true)
    private String email;
+
+    @Column(name="idade")
    private int idade;
 
 //uma missao para varios ninjas

@@ -1,15 +1,22 @@
 package dev.java10x.CadastrosDeNinjas.Missoes;
 
+import dev.java10x.CadastrosDeNinjas.Ninjas.NinjaModel;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Table(name="tb_missoes")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MissoesModel {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
@@ -18,5 +25,4 @@ public class MissoesModel {
 
     @OneToMany(mappedBy = "missoes")
     private List<NinjaModel> ninjas;
-
 }

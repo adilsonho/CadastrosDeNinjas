@@ -1,18 +1,15 @@
 package dev.java10x.CadastrosDeNinjas.Ninjas;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@AllArgsConstructor
 @Service
 public class NinjaService {
-
     private NinjaRepository ninjaRepository;
-
-    public NinjaService(NinjaRepository ninjaRepository) {
-        this.ninjaRepository = ninjaRepository;
-    }
+    private NinjaMapper ninjaMapper;
 
     //Listar todos os meus ninjas
     public List<NinjaModel> listarNinjas(){
@@ -27,9 +24,17 @@ public class NinjaService {
 
     //criar um novo ninja
 
-    public NinjaModel criarNinja(NinjaModel ninja){
-        return ninjaRepository.save(ninja);
+    public NinjaDTO criarNinja(NinjaDTO ninjaDTO) {
+        // Converte DTO -> Model
+        NinjaModel ninjaModel = ninjaMapper.map(ninjaDTO);
+
+        // Salva no banco
+        NinjaModel salvo = ninjaRepository.save(ninjaModel);
+
+        // Converte Model -> DTO e retorna
+        return ninjaMapper.map(salvo);
     }
+
 
     //Deletar o ninja
     public void deletarNinjaPorId(Long id){

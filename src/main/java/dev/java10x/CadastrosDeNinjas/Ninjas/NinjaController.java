@@ -31,25 +31,44 @@ public class NinjaController {
 
     // READ ALL
     @GetMapping("/listar")
-    public List<NinjaDTO> listarNinjas() {
-        return ninjaService.listarNinjas();
+    public ResponseEntity<List<NinjaDTO>> listarNinjas() {
+        List<NinjaDTO> ninjas = ninjaService.listarNinjas();
+        return ResponseEntity.ok(ninjas);
     }
 
     // READ BY ID
     @GetMapping("/listar/{id}")
-    public NinjaDTO listarNinjasPorId(@PathVariable Long id) {
-        return ninjaService.listarNinjasPorId(id);
+    public ResponseEntity<?> listarNinjasPorId(@PathVariable Long id) {
+    NinjaDTO ninja = ninjaService.listarNinjasPorId(id);
+    if(ninja!=null){
+        return ResponseEntity.ok(ninja);
+    } else {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Ninja com o Id: " + id + "não existe nos nossos registros");
+    }
     }
 
     // UPDATE
     @PutMapping("/alterar/{id}")
-    public NinjaDTO alterarNinjasPorId(@PathVariable Long id, @RequestBody NinjaDTO ninjaAtualizado) {
-        return ninjaService.atualizarNinja(id, ninjaAtualizado);
+    public ResponseEntity<?> alterarNinjasPorId(@PathVariable Long id, @RequestBody NinjaDTO ninjaAtualizado) {
+       NinjaDTO ninja = ninjaService.atualizarNinja(id, ninjaAtualizado);
+       if(ninja!=null){
+           return ResponseEntity.ok(ninja);
+       } else {
+           return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                   .body("Ninja com o id: " + id + " nao existe nos nossos registros");
+       }
     }
 
     // DELETE
     @DeleteMapping("/deletar/{id}")
-    public void deletarNinjasPorId(@PathVariable Long id) {
-        ninjaService.deletarNinjaPorId(id);
+    public ResponseEntity<String> deletarNinjasPorId(@PathVariable Long id) {
+        if (ninjaService.listarNinjasPorId(id) != null) {
+            ninjaService.deletarNinjaPorId(id);
+            return ResponseEntity.ok("Ninja com o ID " + id + " deletado com sucesso");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("O ninja com o ID " + id + " não foi encontrado");
+        }
     }
 }

@@ -1,0 +1,1 @@
+ALTER TABLE tb_cadastro ADD COLUMN IF NOT EXISTS img_url VARCHAR(255);

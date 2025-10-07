@@ -41,11 +41,17 @@ public class NinjaService {
     }
 
     public NinjaDTO atualizarNinja(Long id, NinjaDTO ninjaDTO) {
-        Optional<NinjaModel> ninjaExistente = ninjaRepository.findById(id);
-        if (ninjaExistente.isPresent()) {
-            NinjaModel ninjaAtualizado = ninjaMapper.map(ninjaDTO);
-            ninjaAtualizado.setId(id);
-            NinjaModel ninjaSalvo = ninjaRepository.save(ninjaAtualizado);
+        Optional<NinjaModel> ninjaExistenteOpt = ninjaRepository.findById(id);
+
+        if (ninjaExistenteOpt.isPresent()) {
+            NinjaModel ninjaExistente = ninjaExistenteOpt.get();
+
+            ninjaExistente.setNome(ninjaDTO.getNome());
+            ninjaExistente.setEmail(ninjaDTO.getEmail());
+            ninjaExistente.setImgUrl(ninjaDTO.getImgUrl());
+            ninjaExistente.setIdade(ninjaDTO.getIdade());
+            ninjaExistente.setRank(ninjaDTO.getRank());
+            NinjaModel ninjaSalvo = ninjaRepository.save(ninjaExistente);
             return ninjaMapper.map(ninjaSalvo);
         }
         return null;
